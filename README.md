@@ -1,6 +1,6 @@
 # Marketing Recommendation API
 
-A machine learning-powered API that generates targeted marketing campaign recommendations based on local store data and weather conditions.
+An API that generates targeted marketing campaign recommendations based on local store data and weather conditions.
 
 ## Overview
 
