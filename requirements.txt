@@ -1,0 +1,10 @@
+Flask
+gunicorn
+requests
+nltk
+google-generativeai
+pandas
+numpy
+scikit-learn
+openai
+flask-cors

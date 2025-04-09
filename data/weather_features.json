@@ -1,0 +1,13 @@
+{
+  "current_temp": 19.3,
+  "current_wind": 16.4,
+  "temp_flag": "warm",
+  "avg_temp": 9.008333333333333,
+  "max_temp": 20.9,
+  "min_temp": 3.7,
+  "temp_variability": 17.2,
+  "avg_humidity": 93.20833333333333,
+  "max_wind": 22.5,
+  "adverse_weather": false,
+  "weekly_forecast": null
+}

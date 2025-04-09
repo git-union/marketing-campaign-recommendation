@@ -1,0 +1,60 @@
+{
+  "zipcode": "60201",
+  "store_counts": {
+    "grocery_store": 13,
+    "convenience_store": 4,
+    "food_store": 1,
+    "furniture_store": 1,
+    "supermarket": 1
+  },
+  "avg_ratings": {
+    "convenience_store": 3.7249999999999996,
+    "food_store": 4.1,
+    "furniture_store": 4.5,
+    "grocery_store": 4.353846153846154,
+    "supermarket": 4.5
+  },
+  "spatial_density": 2,
+  "centroid": [
+    42.03916716,
+    -87.691859385
+  ],
+  "weather": {
+    "current_temp": 19.3,
+    "current_wind": 16.4,
+    "temp_flag": "warm",
+    "avg_temp": 9.008333333333333,
+    "max_temp": 20.9,
+    "min_temp": 3.7,
+    "temp_variability": 17.2,
+    "avg_humidity": 93.20833333333333,
+    "max_wind": 22.5,
+    "adverse_weather": false,
+    "weekly_forecast": null
+  },
+  "campaign_suitability_score": 8.471538461538461,
+  "hour_of_day": 17,
+  "day_of_week": 6,
+  "store_sentiment": {
+    "grocery_store": {
+      "sentiment": "positive",
+      "sentiment_score": 0.6624661538461538
+    },
+    "convenience_store": {
+      "sentiment": "positive",
+      "sentiment_score": 0.456405
+    },
+    "furniture_store": {
+      "sentiment": "positive",
+      "sentiment_score": 0.91862
+    },
+    "supermarket": {
+      "sentiment": "positive",
+      "sentiment_score": 0.42654
+    },
+    "food_store": {
+      "sentiment": "positive",
+      "sentiment_score": 0.66818
+    }
+  }
+}
