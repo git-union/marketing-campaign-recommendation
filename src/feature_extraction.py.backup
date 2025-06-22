@@ -16,33 +16,8 @@ def process_store_data(stores, centroid=None, radius=0.01):
     - df: DataFrame with one-hot encoded store types, normalized ratings, and distance from centroid.
     - aggregated_metrics: Dictionary with store counts per primary type, average ratings, spatial density, and centroid.
     """
-    # Handle empty stores list
-    if not stores:
-        print("Warning: No stores found. Returning empty DataFrame and default metrics.")
-        return pd.DataFrame(), {
-            'store_counts': {},
-            'avg_ratings': {},
-            'spatial_density': 0,
-            'centroid': (0, 0)
-        }
-    
     # Convert list of stores into a DataFrame
     df = pd.json_normalize(stores)
-    
-    # Handle empty DataFrame
-    if df.empty:
-        print("Warning: Empty DataFrame after normalization. Returning empty DataFrame and default metrics.")
-        return df, {
-            'store_counts': {},
-            'avg_ratings': {},
-            'spatial_density': 0,
-            'centroid': (0, 0)
-        }
-    
-    # Handle missing 'types' column
-    if 'types' not in df.columns:
-        print("Warning: No 'types' column found. Creating empty types list.")
-        df['types'] = [[] for _ in range(len(df))]
     
     # One-Hot Encoding for the "types" column using MultiLabelBinarizer
     mlb = MultiLabelBinarizer()
@@ -50,40 +25,12 @@ def process_store_data(stores, centroid=None, radius=0.01):
     types_df = pd.DataFrame(types_encoded, columns=mlb.classes_, index=df.index)
     df = pd.concat([df, types_df], axis=1)
     
-    # Handle missing 'primaryType' column
-    if 'primaryType' not in df.columns:
-        print("Warning: No 'primaryType' column found. Creating default primaryType.")
-        df['primaryType'] = 'unknown'
-    
     # Retain primaryType as a categorical feature (you can further encode this if needed)
     df['primaryType'] = df['primaryType'].astype('category')
     
-    # Handle missing rating column - check if it exists and handle missing values
-    if 'rating' not in df.columns:
-        print("Warning: No 'rating' column found. Creating default ratings of 3.0.")
-        df['rating'] = 3.0
-    else:
-        # Check for missing ratings and impute with default value
-        if df['rating'].isnull().any():
-            print("Missing ratings found. Filling with default value of 3.0.")
-            df['rating'] = df['rating'].fillna(3.0)
-    
-    # Ensure rating is numeric
-    df['rating'] = pd.to_numeric(df['rating'], errors='coerce').fillna(3.0)
-    
-    # Only normalize if we have data to normalize
-    if len(df) > 0:
-        # Normalize ratings using MinMaxScaler
-        scaler = MinMaxScaler()
-        df['rating_normalized'] = scaler.fit_transform(df[['rating']])
-    else:
-        df['rating_normalized'] = df['rating']
-    
-    # Handle missing location columns
-    if 'location.latitude' not in df.columns or 'location.longitude' not in df.columns:
-        print("Warning: Missing location columns. Using default coordinates.")
-        df['location.latitude'] = 0.0
-        df['location.longitude'] = 0.0
+    # Normalize ratings using MinMaxScaler (if not already normalized)
+    scaler = MinMaxScaler()
+    df['rating_normalized'] = scaler.fit_transform(df[['rating']])
     
     # Geographical Location: ensure latitudes and longitudes are numeric
     df['location.latitude'] = df['location.latitude'].astype(float)

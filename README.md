@@ -1,177 +1,243 @@
-# Marketing Recommendation API
+# Marketing Campaign Recommendation System
 
-An API that generates targeted marketing campaign recommendations based on local store data and weather conditions.
+A sophisticated marketing campaign recommendation system that generates data-driven, weather-aware, and market-optimized campaign suggestions for local businesses using AI-powered analysis.
 
-## Overview
+## 🚀 Features
 
-This application collects data about local businesses and current weather patterns, processes this information using several feature engineering steps, and generates tailored marketing campaign recommendations. The system is designed to help businesses create effective marketing strategies based on environmental factors and competitive landscape.
+- **Real-time Weather Integration**: 7-day weather forecast analysis for weather-responsive campaigns
+- **Local Market Analysis**: Competitor analysis, spatial density, and customer sentiment
+- **AI-Powered Recommendations**: Two-layer Gemini AI system for realistic marketing campaigns
+- **Data-Driven Insights**: Comprehensive market and consumer behavior analysis
+- **Docker Deployment**: Easy containerized deployment with Docker and Docker Compose
 
-## Features
+## 🏗️ Architecture
 
-- **Location Analysis**: Analyzes business density and types in a given zipcode
-- **Sentiment Analysis**: Processes customer reviews to gauge market sentiment
-- **Weather Integration**: Considers current and forecasted weather conditions
-- **Custom Recommendations**: Generates targeted marketing campaigns with actionable insights
-- **Docker Containerization**: Easily deployable in any environment
-- **HTTPS Support**: Secure API communication
+### Two-Layer AI System
+1. **Initial Campaign Generation**: Creates base recommendations using market data
+2. **Marketing Expert Validation**: Senior marketing expert AI analyzes and improves campaigns for realism and effectiveness
 
-## Architecture
+### Data Pipeline
+- **Google Places API**: Store data and competitor analysis
+- **Open-Meteo API**: Weather forecast and climate data
+- **Gemini AI**: Campaign generation and optimization
+- **Data Processing**: Feature extraction, sentiment analysis, and market metrics
 
-The application follows a modular architecture:
-
-1. **Data Collection**:
-   - Google Places API for business data
-   - Open-Meteo API for weather information
-
-2. **Feature Engineering**:
-   - Store type classification and density analysis
-   - Weather pattern processing
-   - Sentiment analysis on customer reviews
-   - Temporal feature extraction
-
-3. **Recommendation Engine**:
-   - GPT-4o powered campaign generation
-   - Context-aware marketing suggestions
-
-## Tech Stack
-
-- **Backend**: Flask/Python
-- **Containerization**: Docker
-- **Deployment**: AWS Elastic Beanstalk
-- **Database**: JSON files (local storage)
-- **APIs**: 
-  - Google Places API
-  - OpenAI GPT-4o API
-  - Open-Meteo Weather API
-
-## Local Development
+## 🐳 Docker Deployment
 
 ### Prerequisites
+- Docker and Docker Compose installed
+- Valid API keys for Gemini and Google Places
 
-- Python 3.9+
-- Docker
-- API keys for:
-  - Google Places API
-  - OpenAI API
+### Quick Start
 
-### Setup
-
-1. Clone the repository:
+1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd feature-engineering
+   cd marketing-campaign-recommendation
    ```
 
-2. Create a `.env` file with your API keys:
-   ```
-   GOOGLE_API_KEY=your_google_api_key
-   OPENAI_API_KEY=your_openai_api_key
-   ```
-
-3. Build and run with Docker:
+2. **Set up environment variables**
    ```bash
-   docker build -t marketing-recommendation-app .
-   docker run -p 3000:3000 --env-file .env marketing-recommendation-app
+   cp .env.example .env
+   # Edit .env with your API keys
    ```
 
-4. Test the API:
+3. **Deploy using the automated script**
    ```bash
-   curl "http://localhost:3000/recommend?zipcode=60201&store_type=grocery_store"
+   ./deploy.sh
    ```
 
-## Deployment to AWS
+### Manual Deployment
 
-### Using Elastic Beanstalk
-
-1. Install AWS CLI and EB CLI:
+1. **Build and run with Docker Compose**
    ```bash
-   pip install awscli awsebcli
+   docker-compose up -d
    ```
 
-2. Initialize Elastic Beanstalk:
+2. **Check application status**
    ```bash
-   eb init
-   # Select region
-   # Create application
-   # Select Docker platform
-   # Set up SSH (optional)
+   docker-compose ps
+   docker-compose logs -f
    ```
 
-3. Create an environment:
+3. **Stop the application**
    ```bash
-   eb create marketing-recommendation-env --elb-type application
+   docker-compose down
    ```
 
-4. Set environment variables:
-   ```bash
-   eb setenv OPENAI_API_KEY=your_key GOOGLE_API_KEY=your_key
-   ```
+## 🔧 Configuration
 
-5. Configure HTTPS:
-   - Request an SSL certificate in AWS Certificate Manager
-   - Add HTTPS listener to your load balancer on port 443
-   - Select your certificate
+### Environment Variables (.env)
+```env
+# API Keys
+GEMINI_API_KEY=your_gemini_api_key_here
+GOOGLE_PLACES_API_KEY=your_google_places_api_key_here
 
-6. Deploy updates:
-   ```bash
-   eb deploy
-   ```
+# Application Settings
+FLASK_ENV=production
+FLASK_DEBUG=false
+```
 
-## API Endpoints
+### API Keys Required
+- **Gemini API Key**: For AI-powered campaign generation
+- **Google Places API Key**: For store and competitor data
+
+## 📡 API Documentation
 
 ### Health Check
-```
+```http
 GET /
 ```
-Returns the status of the API.
+**Response**: `{"status": "healthy"}`
 
-### Generate Marketing Recommendations
-```
+### Campaign Recommendation
+```http
 GET /recommend?zipcode={zipcode}&store_type={store_type}
 ```
 
-Parameters:
-- `zipcode`: The ZIP code to analyze
-- `store_type`: The type of store (e.g., grocery_store, clothing_store)
+#### Parameters
+- `zipcode` (required): Target location zipcode
+- `store_type` (required): Type of store (e.g., `grocery_store`, `clothing_store`, `book_store`)
 
-Response:
+#### Example Request
+```bash
+curl "http://localhost:3003/recommend?zipcode=10001&store_type=grocery_store"
+```
+
+#### Example Response
 ```json
 {
   "Insights": [
-    "Insight 1: Based on weather information",
-    "Insight 2: Based on local competitions",
-    "Insight 3: Based on local density",
-    "Insight 4: Based on ratings and reviews",
-    "Insight 5: Based on consumer behavior and demographics"
+    "Insight 1: Based on the 7-day weather forecast showing rain this weekend...",
+    "Insight 2: Local competition analysis reveals 15 grocery stores...",
+    "Insight 3: Spatial density analysis shows high concentration...",
+    "Insight 4: Customer sentiment analysis indicates strong satisfaction...",
+    "Insight 5: Consumer behavior patterns suggest weekend shopping peaks..."
   ],
   "Campaigns": [
     {
-      "Campaign Title": "Campaign title here",
-      "Campaign Description": "Campaign description here",
-      "Campaign Duration": "Campaign duration with dates",
-      "Discount/Promo": "Discount or promotional offer"
-    },
-    {
-      "Campaign Title": "Second campaign title here",
-      "Campaign Description": "Second campaign description here",
-      "Campaign Duration": "Second campaign duration with dates",
-      "Discount/Promo": "Second discount or promotional offer"
+      "Campaign Title": "Weekend Weather Warrior",
+      "Campaign Description": "Beat the rain with our indoor shopping experience. Special weekend discounts on comfort foods and essentials.",
+      "Campaign Duration": "June 22, 2024 - June 23, 2024",
+      "Discount/Promo": "20% off all comfort foods and 10% off essentials"
     }
   ]
 }
 ```
 
-## Security Considerations
+## 🏗️ Project Structure
 
-- API keys are stored as environment variables
-- HTTPS is enabled for secure data transmission
-- Rate limiting is recommended for production deployments
-- Input validation is performed on all parameters
+```
+marketing-campaign-recommendation/
+├── src/
+│   ├── fetch_data.py          # API data fetching
+│   ├── cleaning.py            # Data cleaning and normalization
+│   ├── feature_extraction.py  # Store data processing
+│   ├── weather_features.py    # Weather data processing
+│   ├── feature_pipeline.py    # Feature vector building
+│   └── sentiment.py           # Sentiment analysis
+├── server.py                  # Flask application
+├── Dockerfile                 # Docker configuration
+├── docker-compose.yml         # Docker Compose setup
+├── requirements.txt           # Python dependencies
+├── deploy.sh                  # Deployment script
+└── README.md                  # This file
+```
 
-## Further Development
+## 🔍 Data Sources
 
-- Add user authentication
-- Implement caching for API responses
-- Create a web interface for campaign management
-- Enhance the recommendation engine with additional data sources
-- Add multi-region support for global deployment
+### Weather Data (Open-Meteo API)
+- 7-day daily forecast
+- Temperature (max/min)
+- Precipitation
+- Weather codes
+- Humidity and wind data
+
+### Store Data (Google Places API)
+- Competitor store locations
+- Customer ratings
+- Store categories
+- Geographic coordinates
+- Business information
+
+### AI Analysis (Gemini API)
+- Campaign generation
+- Market insights
+- Consumer psychology
+- Competitive analysis
+
+## 🛠️ Development
+
+### Local Development Setup
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Set environment variables
+export GEMINI_API_KEY=your_key
+export GOOGLE_PLACES_API_KEY=your_key
+
+# Run the application
+python server.py
+```
+
+### Testing
+```bash
+# Health check
+curl http://localhost:3003/
+
+# Test recommendation
+curl "http://localhost:3003/recommend?zipcode=10001&store_type=grocery_store"
+```
+
+## 📊 Monitoring
+
+### Health Checks
+- Application health: `http://localhost:3003/`
+- Docker health check configured
+- Logs available via `docker-compose logs -f`
+
+### Data Storage
+- Intermediate data saved to `./data/` directory
+- Logs stored in `./logs/` directory
+- Data persisted via Docker volumes
+
+## 🔒 Security
+
+- API keys stored as environment variables
+- No sensitive data in codebase
+- Production-ready configuration
+- Health checks and error handling
+
+## 🚀 Scaling
+
+### Horizontal Scaling
+```bash
+# Scale to multiple instances
+docker-compose up -d --scale marketing-campaign-app=3
+```
+
+### Load Balancing
+- Add nginx reverse proxy
+- Configure load balancer
+- Implement caching layer
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📞 Support
+
+For issues and questions:
+- Check the logs: `docker-compose logs -f`
+- Verify API keys are correctly set
+- Ensure all dependencies are installed
+- Check network connectivity for API calls
