@@ -2,7 +2,38 @@
 
 A sophisticated marketing campaign engine that leverages real-time weather data, local market dynamics, and a dual-layer AI to generate strategic, data-driven campaign recommendations for local businesses.
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_App-brightgreen?style=for-the-badge)]([https://api.eesita.me](https://api.eesita.me/recommend?zipcode=60201&store_type=flower))
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_App-brightgreen?style=for-the-badge)](https://app.eesita.me)
+
+---
+
+## 🚀 Interactive Demo
+
+Use the form below to generate a campaign recommendation directly from your browser.
+
+<form action="https://api.eesita.me/recommend" method="GET" target="_blank">
+  <label for="zipcode">Enter Your Zip Code:</label>
+  <br>
+  <input type="text" id="zipcode" name="zipcode" placeholder="e.g., 90210" required>
+  <br><br>
+  <label for="store_type">Select a Store Type:</label>
+  <br>
+  <select id="store_type" name="store_type" required>
+    <option value="grocery_store">Grocery Store</option>
+    <option value="restaurant">Restaurant</option>
+    <option value="clothing_store">Clothing Store</option>
+    <option value="book_store">Book Store</option>
+    <option value="cafe">Cafe</option>
+    <option value="gym">Gym</option>
+    <option value="hardware_store">Hardware Store</option>
+    <option value="pharmacy">Pharmacy</option>
+    <option value="flower_shop">Flower Shop</option>
+    <option value="bakery">Bakery</option>
+  </select>
+  <br><br>
+  <button type="submit">Generate Campaign</button>
+</form>
+
+---
 
 ## ✨ Key Features
 
