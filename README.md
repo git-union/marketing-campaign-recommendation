@@ -141,7 +141,7 @@ This application is designed to be deployed as a container on AWS Elastic Contai
     -   `store_type` (string, required): The type of store (e.g., `grocery_store`, `book_store`).
 -   **Example Request**:
     ```bash
-    curl "http://localhost:3000/recommend?zipcode=10001&store_type=clothing_store"
+    curl "https://api.eesita.me/recommend?zipcode=10001&store_type=clothing_store"
     ```
 -   **Example Success Response** (`200 OK`):
     ```json
@@ -226,16 +226,16 @@ python server.py
 ### Testing
 ```bash
 # Health check
-curl http://localhost:3000/
+curl https://api.eesita.me/
 
 # Test recommendation
-curl "http://localhost:3000/recommend?zipcode=10001&store_type=grocery_store"
+curl "https://api.eesita.me/recommend?zipcode=10001&store_type=grocery_store"
 ```
 
 ## 📊 Monitoring
 
 ### Health Checks
-- Application health: `http://localhost:3000/`
+- Application health: `https://api.eesita.me/`
 - Docker health check configured
 - Logs available via `docker-compose logs -f`
 
