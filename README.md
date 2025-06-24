@@ -2,8 +2,6 @@
 
 A sophisticated marketing campaign engine that leverages real-time weather data, local market dynamics, and a dual-layer AI to generate strategic, data-driven campaign recommendations for local businesses.
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_App-brightgreen?style=for-the-badge)](https://app.eesita.me)
-
 ---
 
 ## 🚀 Interactive Demo
