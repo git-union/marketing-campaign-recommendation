@@ -4,32 +4,24 @@ A sophisticated marketing campaign engine that leverages real-time weather data,
 
 ---
 
-## 🚀 Interactive Demo
+## 🚀 Try the API Live
 
-Use the form below to generate a campaign recommendation directly from your browser.
+You can test the live API directly by building a request URL.
 
-<form action="https://api.eesita.me/recommend" method="GET" target="_blank">
-  <label for="zipcode">Enter Your Zip Code:</label>
-  <br>
-  <input type="text" id="zipcode" name="zipcode" placeholder="e.g., 90210" required>
-  <br><br>
-  <label for="store_type">Select a Store Type:</label>
-  <br>
-  <select id="store_type" name="store_type" required>
-    <option value="grocery_store">Grocery Store</option>
-    <option value="restaurant">Restaurant</option>
-    <option value="clothing_store">Clothing Store</option>
-    <option value="book_store">Book Store</option>
-    <option value="cafe">Cafe</option>
-    <option value="gym">Gym</option>
-    <option value="hardware_store">Hardware Store</option>
-    <option value="pharmacy">Pharmacy</option>
-    <option value="flower_shop">Flower Shop</option>
-    <option value="bakery">Bakery</option>
-  </select>
-  <br><br>
-  <button type="submit">Generate Campaign</button>
-</form>
+**1. Copy the template below:**
+```
+https://api.eesita.me/recommend?zipcode=YOUR_ZIP_CODE&store_type=YOUR_STORE_TYPE
+```
+
+**2. Replace the placeholders:**
+-   `YOUR_ZIP_CODE` → Enter any valid zip code (e.g., `90210`).
+-   `YOUR_STORE_TYPE` → Choose a type from the list below.
+
+**Suggested Store Types:**
+`grocery_store`, `restaurant`, `clothing_store`, `book_store`, `cafe`, `gym`, `hardware_store`, `pharmacy`, `flower_shop`, `bakery`
+
+**3. Test the final URL in your browser.**
+For example: [https://api.eesita.me/recommend?zipcode=90210&store_type=cafe](https://api.eesita.me/recommend?zipcode=90210&store_type=cafe)
 
 ---
 
