@@ -1,21 +1,19 @@
 {
   "store_counts": {
     "grocery_store": 13,
-    "convenience_store": 4,
-    "food_store": 1,
-    "furniture_store": 1,
+    "asian_grocery_store": 4,
+    "convenience_store": 2,
     "supermarket": 1
   },
   "avg_ratings": {
-    "convenience_store": 3.7249999999999996,
-    "food_store": 4.1,
-    "furniture_store": 4.5,
-    "grocery_store": 4.353846153846154,
-    "supermarket": 4.5
+    "asian_grocery_store": 4.025,
+    "convenience_store": 4.25,
+    "grocery_store": 4.3769230769230765,
+    "supermarket": 4.3
   },
   "spatial_density": 2,
   "centroid": [
-    42.03916716,
-    -87.691859385
+    42.34587660999999,
+    -71.103756065
   ]
 }

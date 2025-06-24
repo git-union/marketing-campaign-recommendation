@@ -3,19 +3,21 @@ version: '3.8'
 services:
   marketing-campaign-app:
     build: .
+    platform: linux/amd64
     container_name: marketing-campaign-recommendation
     ports:
-      - "3003:3003"
+      - "3000:3000"
     environment:
       - FLASK_ENV=production
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3003/"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
       interval: 30s
       timeout: 10s
       retries: 3

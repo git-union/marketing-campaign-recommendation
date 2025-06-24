@@ -1,147 +1,187 @@
-# Marketing Campaign Recommendation System
+# AI-Powered Marketing Campaign Recommendation System
 
-A sophisticated marketing campaign recommendation system that generates data-driven, weather-aware, and market-optimized campaign suggestions for local businesses using AI-powered analysis.
+A sophisticated marketing campaign engine that leverages real-time weather data, local market dynamics, and a dual-layer AI to generate strategic, data-driven campaign recommendations for local businesses.
 
-## 🚀 Features
+## ✨ Key Features
 
-- **Real-time Weather Integration**: 7-day weather forecast analysis for weather-responsive campaigns
-- **Local Market Analysis**: Competitor analysis, spatial density, and customer sentiment
-- **AI-Powered Recommendations**: Two-layer Gemini AI system for realistic marketing campaigns
-- **Data-Driven Insights**: Comprehensive market and consumer behavior analysis
-- **Docker Deployment**: Easy containerized deployment with Docker and Docker Compose
+- **Dynamic Weather Integration**: Ingests 7-day weather forecasts to recommend timely, weather-appropriate promotions.
+- **Hyper-Local Market Analysis**: Analyzes local competitor density, customer ratings, and business sentiment to identify market gaps and opportunities.
+- **Dual-Layer AI Strategy**:
+  1.  **Campaign Generator**: An AI model that creates initial campaign ideas based on a comprehensive feature vector of the market.
+  2.  **Marketing Expert AI**: A second AI model that refines, validates, and enhances the initial ideas, ensuring they are realistic, compelling, and effective.
+- **RESTful API**: Simple and clean API for generating recommendations on demand.
+- **Containerized & Cloud-Ready**: Fully containerized with Docker for easy deployment and architected for scalable deployment on cloud services like AWS ECS.
 
-## 🏗️ Architecture
+---
 
-### Two-Layer AI System
-1. **Initial Campaign Generation**: Creates base recommendations using market data
-2. **Marketing Expert Validation**: Senior marketing expert AI analyzes and improves campaigns for realism and effectiveness
+## 🏗️ Architecture Overview
 
-### Data Pipeline
-- **Google Places API**: Store data and competitor analysis
-- **Open-Meteo API**: Weather forecast and climate data
-- **Gemini AI**: Campaign generation and optimization
-- **Data Processing**: Feature extraction, sentiment analysis, and market metrics
+The system follows a data-processing pipeline that culminates in AI-powered analysis:
 
-## 🐳 Docker Deployment
+1.  **Data Fetching**: The `fetch_data` module retrieves store and competitor data from the **Google Places API** and weather forecasts from the **Open-Meteo API**.
+2.  **Data Processing & Feature Engineering**: Raw data is cleaned, and key features are extracted. This includes calculating competitor density, aggregating customer ratings, and processing weather data into actionable insights (`src/`).
+3.  **Sentiment Analysis**: Customer reviews are analyzed to generate sentiment scores for different store categories.
+4.  **AI Recommendation Engine**:
+    - A detailed JSON `feature_vector` is constructed, summarizing the entire market context.
+    - This vector is fed to the first Gemini AI model to generate initial campaign recommendations.
+    - A second, "marketing expert" AI model reviews the initial output, along with raw aggregated data, to improve the campaigns' realism, psychological impact, and competitive edge.
+5.  **API Server**: A Flask server exposes the `/recommend` endpoint to deliver the final JSON-formatted recommendations.
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Docker and Docker Compose installed
-- Valid API keys for Gemini and Google Places
 
-### Quick Start
+- [Docker](https://www.docker.com/products/docker-desktop/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
+- [AWS CLI](https://aws.amazon.com/cli/) installed and configured (for AWS deployment).
+- Valid API keys for:
+  - **Google Cloud Platform** (with Places API enabled)
+  - **Google AI Studio** (for Gemini API)
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd marketing-campaign-recommendation
-   ```
+### 1. Environment Setup
 
-2. **Set up environment variables**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your API keys
-   ```
+Clone the repository and create a `.env` file for your API keys.
 
-3. **Deploy using the automated script**
-   ```bash
-   ./deploy.sh
-   ```
-
-### Manual Deployment
-
-1. **Build and run with Docker Compose**
-   ```bash
-   docker-compose up -d
-   ```
-
-2. **Check application status**
-   ```bash
-   docker-compose ps
-   docker-compose logs -f
-   ```
-
-3. **Stop the application**
-   ```bash
-   docker-compose down
-   ```
-
-## 🔧 Configuration
-
-### Environment Variables (.env)
-```env
-# API Keys
-GEMINI_API_KEY=your_gemini_api_key_here
-GOOGLE_PLACES_API_KEY=your_google_places_api_key_here
-
-# Application Settings
-FLASK_ENV=production
-FLASK_DEBUG=false
+```bash
+git clone https://github.com/your-username/marketing-campaign-recommendation.git
+cd marketing-campaign-recommendation
+touch .env
 ```
 
-### API Keys Required
-- **Gemini API Key**: For AI-powered campaign generation
-- **Google Places API Key**: For store and competitor data
+Add your API keys to the `.env` file:
+
+```env
+# .env
+GEMINI_API_KEY="your_gemini_api_key_here"
+GOOGLE_PLACES_API_KEY="your_google_places_api_key_here"
+```
+
+### 2. Running Locally with Docker
+
+This is the recommended method for local development.
+
+```bash
+# Build and run the container in detached mode
+docker-compose up --build -d
+```
+
+The application will be available at `http://localhost:3000`.
+
+**Other useful commands:**
+```bash
+# View container logs
+docker-compose logs -f
+
+# Check running services
+docker-compose ps
+
+# Stop and remove the containers
+docker-compose down
+```
+
+### 3. Running Natively (Without Docker)
+
+```bash
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Run the Flask application
+python server.py
+```
+
+---
+
+## ☁️ Deployment to AWS ECS
+
+This application is designed to be deployed as a container on AWS Elastic Container Service (ECS) with a Fargate launch type.
+
+### Key Deployment Steps
+
+1.  **Build and Push the Docker Image to ECR**:
+    - The image must be built for the `linux/amd64` platform to be compatible with AWS Fargate. This is pre-configured in the `docker-compose.yml` file.
+    - Create an ECR repository and push the multi-platform image to it.
+
+2.  **Set Up ECS Cluster**:
+    - Create a new ECS cluster to host the service.
+
+3.  **Create a Task Definition**:
+    - This blueprint defines how to run the container. It specifies the ECR image URI, CPU/memory resources, port mappings, and environment variables.
+    - **Crucially**, API keys should be injected securely using **AWS Secrets Manager**, not as plaintext environment variables.
+
+4.  **Create an Application Load Balancer (ALB)**:
+    - Set up an ALB and a Target Group to expose the service to the internet.
+    - The Target Group's health check should point to the `/` endpoint on the container's port (`3000`).
+
+5.  **Create the ECS Service**:
+    - The service launches the task and connects it to the ALB's Target Group.
+    - **Critical Networking Configuration**: Ensure the service's Security Group allows inbound traffic on port `3000` from the ALB's Security Group to pass health checks.
+
+---
 
 ## 📡 API Documentation
 
 ### Health Check
-```http
-GET /
-```
-**Response**: `{"status": "healthy"}`
 
-### Campaign Recommendation
-```http
-GET /recommend?zipcode={zipcode}&store_type={store_type}
-```
+-   `GET /`
+-   **Description**: Confirms that the API is running.
+-   **Success Response** (`200 OK`):
+    ```json
+    { "status": "healthy" }
+    ```
 
-#### Parameters
-- `zipcode` (required): Target location zipcode
-- `store_type` (required): Type of store (e.g., `grocery_store`, `clothing_store`, `book_store`)
+### Generate Campaign Recommendations
 
-#### Example Request
-```bash
-curl "http://localhost:3003/recommend?zipcode=10001&store_type=grocery_store"
-```
-
-#### Example Response
-```json
-{
-  "Insights": [
-    "Insight 1: Based on the 7-day weather forecast showing rain this weekend...",
-    "Insight 2: Local competition analysis reveals 15 grocery stores...",
-    "Insight 3: Spatial density analysis shows high concentration...",
-    "Insight 4: Customer sentiment analysis indicates strong satisfaction...",
-    "Insight 5: Consumer behavior patterns suggest weekend shopping peaks..."
-  ],
-  "Campaigns": [
+-   `GET /recommend?zipcode={zipcode}&store_type={store_type}`
+-   **Description**: Generates marketing campaigns based on the location and store type.
+-   **Query Parameters**:
+    -   `zipcode` (string, required): The target postal code (e.g., `90210`).
+    -   `store_type` (string, required): The type of store (e.g., `grocery_store`, `book_store`).
+-   **Example Request**:
+    ```bash
+    curl "http://localhost:3000/recommend?zipcode=10001&store_type=clothing_store"
+    ```
+-   **Example Success Response** (`200 OK`):
+    ```json
     {
-      "Campaign Title": "Weekend Weather Warrior",
-      "Campaign Description": "Beat the rain with our indoor shopping experience. Special weekend discounts on comfort foods and essentials.",
-      "Campaign Duration": "June 22, 2024 - June 23, 2024",
-      "Discount/Promo": "20% off all comfort foods and 10% off essentials"
+      "Insights": [
+        "Insight 1: With a sunny, warm 7-day forecast, foot traffic is expected to increase.",
+        "Insight 2: Local competition is moderate, but customer ratings for competitors are average, indicating an opportunity to capture market share with a superior experience."
+      ],
+      "Campaigns": [
+        {
+          "Campaign Title": "Sunshine & Style: Early Summer Showcase",
+          "Campaign Description": "The weather is perfect for a wardrobe refresh! Visit us this week to explore our new summer collection. Enjoy a complimentary iced tea while you shop.",
+          "Campaign Duration": "June 25, 2024 - July 1, 2024",
+          "Discount/Promo": "15% off all new summer arrivals."
+        }
+      ]
     }
-  ]
-}
-```
+    ```
 
-## 🏗️ Project Structure
+---
+
+## 📁 Project Structure
 
 ```
-marketing-campaign-recommendation/
-├── src/
-│   ├── fetch_data.py          # API data fetching
-│   ├── cleaning.py            # Data cleaning and normalization
-│   ├── feature_extraction.py  # Store data processing
-│   ├── weather_features.py    # Weather data processing
-│   ├── feature_pipeline.py    # Feature vector building
-│   └── sentiment.py           # Sentiment analysis
-├── server.py                  # Flask application
-├── Dockerfile                 # Docker configuration
-├── docker-compose.yml         # Docker Compose setup
-├── requirements.txt           # Python dependencies
-├── deploy.sh                  # Deployment script
-└── README.md                  # This file
+.
+├── src/                  # Core data processing and feature engineering modules
+│   ├── cleaning.py
+│   ├── feature_extraction.py
+│   ├── feature_pipeline.py
+│   ├── fetch_data.py
+│   ├── sentiment.py
+│   └── weather_features.py
+├── data/                 # Directory for storing intermediate data files (auto-generated)
+├── logs/                 # Directory for storing logs (auto-generated)
+├── .dockerignore
+├── .gitignore
+├── .env                  # Local environment variables (must be created manually)
+├── docker-compose.yml    # Docker Compose configuration for local development
+├── Dockerfile            # Defines the container image
+├── README.md             # This file
+├── requirements.txt      # Python dependencies
+└── server.py             # Flask API server and main application logic
 ```
 
 ## 🔍 Data Sources
@@ -184,16 +224,16 @@ python server.py
 ### Testing
 ```bash
 # Health check
-curl http://localhost:3003/
+curl http://localhost:3000/
 
 # Test recommendation
-curl "http://localhost:3003/recommend?zipcode=10001&store_type=grocery_store"
+curl "http://localhost:3000/recommend?zipcode=10001&store_type=grocery_store"
 ```
 
 ## 📊 Monitoring
 
 ### Health Checks
-- Application health: `http://localhost:3003/`
+- Application health: `http://localhost:3000/`
 - Docker health check configured
 - Logs available via `docker-compose logs -f`
 
