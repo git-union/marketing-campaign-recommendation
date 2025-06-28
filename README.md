@@ -238,6 +238,8 @@ This application is designed to be deployed as a container on AWS Elastic Contai
 - Production-ready configuration
 - Health checks and error handling
 
+---
+
 ## 📝 License
 
 This project is licensed under the MIT License.
