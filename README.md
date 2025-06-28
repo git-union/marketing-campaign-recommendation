@@ -229,30 +229,6 @@ This application is designed to be deployed as a container on AWS Elastic Contai
 - Consumer psychology
 - Competitive analysis
 
-## 🛠️ Development
-
-### Local Development Setup
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Set environment variables
-export GEMINI_API_KEY=your_key
-export GOOGLE_PLACES_API_KEY=your_key
-
-# Run the application
-python server.py
-```
-
-### Testing
-```bash
-# Health check
-curl https://api.eesita.me/
-
-# Test recommendation
-curl "https://api.eesita.me/recommend?zipcode=10001&store_type=grocery_store"
-```
-
 ## 📊 Monitoring
 
 ### Health Checks
@@ -272,35 +248,6 @@ curl "https://api.eesita.me/recommend?zipcode=10001&store_type=grocery_store"
 - Production-ready configuration
 - Health checks and error handling
 
-## 🚀 Scaling
-
-### Horizontal Scaling
-```bash
-# Scale to multiple instances
-docker-compose up -d --scale marketing-campaign-app=3
-```
-
-### Load Balancing
-- Add nginx reverse proxy
-- Configure load balancer
-- Implement caching layer
-
 ## 📝 License
 
 This project is licensed under the MIT License.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📞 Support
-
-For issues and questions:
-- Check the logs: `docker-compose logs -f`
-- Verify API keys are correctly set
-- Ensure all dependencies are installed
-- Check network connectivity for API calls
