@@ -236,11 +236,6 @@ This application is designed to be deployed as a container on AWS Elastic Contai
 - Docker health check configured
 - Logs available via `docker-compose logs -f`
 
-### Data Storage
-- Intermediate data saved to `./data/` directory
-- Logs stored in `./logs/` directory
-- Data persisted via Docker volumes
-
 ## 🔒 Security
 
 - API keys stored as environment variables
