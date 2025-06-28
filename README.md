@@ -229,12 +229,7 @@ This application is designed to be deployed as a container on AWS Elastic Contai
 - Consumer psychology
 - Competitive analysis
 
-## 📊 Monitoring
-
-### Health Checks
-- Application health: `https://api.eesita.me/`
-- Docker health check configured
-- Logs available via `docker-compose logs -f`
+---
 
 ## 🔒 Security
 
